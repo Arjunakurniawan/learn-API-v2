@@ -1,5 +1,3 @@
-const inputTitle = document.getElementById("inputTitle");
-const inputBody = document.getElementById("inputBody");
 const postlist = document.getElementById("postList");
 const button = document.getElementById("buttonSubmit");
 
@@ -8,13 +6,13 @@ function fetchPost() {
     .then(function (res) {
       return res.json();
     })
-    .then(function (post) {
+    .then(function (posts) {
       let postList = document.getElementById("postList");
       postList.innerHTML = "";
 
-      for (let i = 0; i < post.length; i++) {
+      for (let i = 0; i < posts.length; i++) {
         let postItem = document.createElement("li");
-        postItem.textContent = `id: ${post[i].id} title: ${post[i].title}`;
+        postItem.textContent = `id: ${posts[i].id} title: ${posts[i].title}`;
         postList.append(postItem);
       }
     })
@@ -23,6 +21,28 @@ function fetchPost() {
     });
 }
 
-button.onclick = function () {};
+button.onclick = function () {
+  const inputTitle = document.getElementById("inputTitle").value;
+  const inputBody = document.getElementById("inputBody").value;
+
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "post",
+
+    body: JSON.stringify({
+      title: inputTitle,
+      body: inputBody,
+    }),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (json) {
+      alert("Success");
+      fetchPost();
+    });
+};
 
 fetchPost();
