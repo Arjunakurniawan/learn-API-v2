@@ -12,12 +12,9 @@ function fetchPost() {
 
       for (let i = 0; i < posts.length; i++) {
         let postItem = document.createElement("li");
-        postItem.textContent = `id: ${posts[i].id} title: ${posts[i].title}`;
+        postItem.textContent = `id: ${posts[i].id}  title: ${posts[i].title}`;
         postList.append(postItem);
       }
-    })
-    .catch(function (err) {
-      console.error("Error", err);
     });
 }
 
@@ -26,15 +23,14 @@ button.onclick = function () {
   const inputBody = document.getElementById("inputBody").value;
 
   fetch("https://jsonplaceholder.typicode.com/posts", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "post",
-
+    method: "POST",
     body: JSON.stringify({
       title: inputTitle,
       body: inputBody,
     }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then(function (res) {
       return res.json();
@@ -42,6 +38,7 @@ button.onclick = function () {
     .then(function (json) {
       alert("Success");
       fetchPost();
+      
     });
 };
 
